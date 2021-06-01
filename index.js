@@ -46,7 +46,7 @@ client.on('ready', () => {
             },
             {
                 name: 'AFK Timeout',
-                value: afkTimeout / 60,
+                value: afkTimeout / 60 + ' mins',
             }
         )
 
