@@ -19,11 +19,39 @@ client.on('ready', () => {
     });
 
     // command that tells the bot to display the number of members in the server
-    command(client, 'servers', (message) => {
-        client.guilds.cache.forEach((guild) => {
-            message.channel.send(
-                `${guild.name} has a total of ${guild.memberCount} members`); 
-        });
+    command(client, 'serverinfo', (message) => {
+        // obtain guild object through destructuring of message
+        const { guild } = message;
+
+        // obtain name, region, memberCount, owner, and afkTimeout from guild object
+        const { name, region, memberCount, owner, afkTimeout } = guild;
+        const icon = guild.iconURL();
+
+        // builds the embedded message
+        const embed = new Discord.MessageEmbed()
+        .setTitle(`Server info for ${name}`)
+        .setThumbnail(icon)
+        .addFields(
+            {
+                name: 'Region',
+                value: region,
+            },
+            {
+                name: 'Members',
+                value: memberCount,
+            },
+            {
+                name: 'Owner',
+                value: owner.user.tag,
+            },
+            {
+                name: 'AFK Timeout',
+                value: afkTimeout / 60,
+            }
+        )
+
+        // sends the embedded message
+        message.channel.send(embed);
     });
 
     // command that clears a channel of its messages (user needs admin permissions)
