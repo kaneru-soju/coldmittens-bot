@@ -13,7 +13,7 @@ module.exports = (client, aliases, callback) => {
         const { content } = message;    
 
         // log to the console each command that is run and callback to execute the command
-        aliases.forEach(alias => {
+        aliases.forEach((alias) => {
             const command = `${prefix}${alias}`;
 
             if (content.startsWith(`${command} `) || content === command) {

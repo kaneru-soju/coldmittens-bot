@@ -7,11 +7,17 @@ const client = new Discord.Client();
 // require the config.json file to grab our token and command prefix
 const config = require('./config.json');
 
-const command = require('./command.js');
+const command = require('./command');
+
+// lets the users in the server claim 
+const firstMessage = require('./first-message');
+const roleClaim = require('./role-claim');
 
 // when the client is ready, run this code
 client.on('ready', () => {
     console.log('The client is ready!');
+
+    roleClaim(client);
 
     // commands that make the bot respond with Pong
     command(client, ['ping', 'test'], (message) => {
