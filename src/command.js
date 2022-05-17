@@ -1,5 +1,5 @@
 // require the config.json file to grab the prefix
-const { prefix } = require('./config.json');
+const { prefix } = require('../config.json');
 
 // allows exporting of values from modules
 module.exports = (client, aliases, callback) => {

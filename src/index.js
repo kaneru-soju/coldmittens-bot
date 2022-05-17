@@ -5,19 +5,16 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 // require the config.json file to grab our token and command prefix
-const config = require('./config.json');
+const config = require('../config.json');
 
 const command = require('./command');
 
 // lets the users in the server claim 
 const firstMessage = require('./first-message');
-const roleClaim = require('./role-claim');
 
 // when the client is ready, run this code
 client.on('ready', () => {
     console.log('The client is ready!');
-
-    roleClaim(client);
 
     // commands that make the bot respond with Pong
     command(client, ['ping', 'test'], (message) => {
@@ -87,7 +84,7 @@ client.on('ready', () => {
         number = 21;
         imageNumber = Math.floor(Math.random() * (number - 1 + 1)) + 1;
 
-        const attachment = new Discord.MessageAttachment('./fortunes/fortune' + imageNumber + '.png', 'fortune' + imageNumber + '.png');
+        const attachment = new Discord.MessageAttachment('../fortunes/fortune' + imageNumber + '.png', 'fortune' + imageNumber + '.png');
 
         const embed = new Discord.MessageEmbed()
         .setColor('#f1d37b')
@@ -95,8 +92,8 @@ client.on('ready', () => {
         .attachFiles(attachment)
         .setImage('attachment://fortune' + imageNumber + '.png')
         
-        message.channel.send( {files: ['./cookies/fcookie.png']} );
-        message.channel.send( {files: ['./cookies/fcookie_open.png']} );
+        message.channel.send( {files: ['../cookies/fcookie.png']} );
+        message.channel.send( {files: ['../cookies/fcookie_open.png']} );
         message.channel.send(embed);
     });
 
@@ -106,7 +103,7 @@ client.on('ready', () => {
         number = 25;
         imageNumber = Math.floor(Math.random() * (number - 1 + 1)) + 1;
 
-        const attachment = new Discord.MessageAttachment('./fortunes/misfortune' + imageNumber + '.png', 'misfortune' + imageNumber + '.png');
+        const attachment = new Discord.MessageAttachment('../fortunes/misfortune' + imageNumber + '.png', 'misfortune' + imageNumber + '.png');
 
         const embed = new Discord.MessageEmbed()
         .setColor('#4b4464')
@@ -114,8 +111,8 @@ client.on('ready', () => {
         .attachFiles(attachment)
         .setImage('attachment://misfortune' + imageNumber + '.png')
 
-        message.channel.send( {files: ['./cookies/mfcookie.png']} );
-        message.channel.send( {files: ['./cookies/mfcookie_open.png']} );
+        message.channel.send( {files: ['../cookies/mfcookie.png']} );
+        message.channel.send( {files: ['../cookies/mfcookie_open.png']} );
         message.channel.send(embed);
     })
 });
