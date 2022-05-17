@@ -7,11 +7,17 @@ const client = new Discord.Client();
 // require the config.json file to grab our token and command prefix
 const config = require('./config.json');
 
-const command = require('./command.js');
+const command = require('./command');
+
+// lets the users in the server claim 
+const firstMessage = require('./first-message');
+const roleClaim = require('./role-claim');
 
 // when the client is ready, run this code
 client.on('ready', () => {
     console.log('The client is ready!');
+
+    roleClaim(client);
 
     // commands that make the bot respond with Pong
     command(client, ['ping', 'test'], (message) => {
@@ -19,11 +25,39 @@ client.on('ready', () => {
     });
 
     // command that tells the bot to display the number of members in the server
-    command(client, 'servers', (message) => {
-        client.guilds.cache.forEach((guild) => {
-            message.channel.send(
-                `${guild.name} has a total of ${guild.memberCount} members`); 
-        });
+    command(client, 'serverinfo', (message) => {
+        // obtain guild object through destructuring of message
+        const { guild } = message;
+
+        // obtain name, region, memberCount, owner, and afkTimeout from guild object
+        const { name, region, memberCount, owner, afkTimeout } = guild;
+        const icon = guild.iconURL();
+
+        // builds the embedded message
+        const embed = new Discord.MessageEmbed()
+        .setTitle(`Server info for ${name}`)
+        .setThumbnail(icon)
+        .addFields(
+            {
+                name: 'Region',
+                value: region,
+            },
+            {
+                name: 'Members',
+                value: memberCount,
+            },
+            {
+                name: 'Owner',
+                value: owner.user.tag,
+            },
+            {
+                name: 'AFK Timeout',
+                value: afkTimeout / 60 + ' mins',
+            }
+        )
+
+        // sends the embedded message
+        message.channel.send(embed);
     });
 
     // command that clears a channel of its messages (user needs admin permissions)
